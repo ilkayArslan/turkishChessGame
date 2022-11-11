@@ -1,24 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
 
+import './App.css';
+import Board from './components/Board';
+import UserOne from './components/UserOne';
+import UserTwo from './components/UserTwo';
+import { useSelector } from "react-redux"
+import BoardClose from './components/BoardClose';
 function App() {
+  const userOne = useSelector(state => state.game.userOne);
+  const userTwo = useSelector(state => state.game.userTwo);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <div className='App' style={{ backgroundColor: `${userOne.inTurn ? "white" : "black"}` }}>
+
+        <UserOne />
+        {((userOne.name === "User1") || (userTwo.name === "User2")) && < BoardClose />}
+        {(userOne.stones < 1) && < BoardClose />}
+        {(userTwo.stones < 1) && < BoardClose />}
+        {(userTwo.stones === 1) && (userOne.stones === 1) && < BoardClose />}
+        <Board />
+        <UserTwo />
+      </div>
+
+    </>
+
   );
 }
 
